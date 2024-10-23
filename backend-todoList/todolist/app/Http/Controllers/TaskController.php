@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Task; //
+use App\Models\Task2s; //
 class TaskController extends Controller
 {
     /**
@@ -13,7 +13,7 @@ class TaskController extends Controller
      */
     public function index()
     {
-        return Task::all();
+        return Task2s::all();
        
     }
 
@@ -45,7 +45,7 @@ class TaskController extends Controller
     ]);
 
     // Créer la tâche
-    $task = Task::create($validatedData);
+    $task = Task2s::create($validatedData);
 
     // Retourner une réponse
     return response()->json(['task' => $task], 201);
@@ -58,7 +58,7 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-       $task=Task::find($id);
+       $task=Task2s::find($id);
 
        if($task){
           return response()->json($task,200);
@@ -87,7 +87,7 @@ class TaskController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $task=Task::findOrFail($id);
+        $task=Task2s::findOrFail($id);
         $task->update($request->all());
         return response()->json($task,200);
     }

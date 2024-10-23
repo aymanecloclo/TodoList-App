@@ -19,7 +19,7 @@ const [tasks, setTasks] = useState([
         priority: 'none',
         categorie: ''
     });
-   
+ 
     useEffect(()=>{
       fetchTasks();
    
@@ -36,6 +36,7 @@ const [tasks, setTasks] = useState([
 
  const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(task);  
     try {
         const response = await axios.post('http://127.0.0.1:8000/api/tasks', task, {
             headers: {
@@ -59,15 +60,26 @@ const [tasks, setTasks] = useState([
             console.error('Erreur lors de la récupération des tâches:', error);
         }
     };
-  console.log(tasks);
   const handleClick= async(id)=>{
        try{
           await axios.delete(`http://127.0.0.1:8000/api/tasks/${id}`);
        const copy_tasks=tasks.filter(task=>task.id!=id);
         setTasks(copy_tasks);
        }catch(error){
-          console.error('Erreur lors de suppression elements:', error);
-       }
+        if (error.response) {
+            // La requête a été faite et le serveur a répondu avec un code de statut
+            // qui tombe en dehors de la plage de 2xx
+            console.error('Erreur lors de la suppression :', error.response.data);
+            alert(`Erreur: ${error.response.data.message || 'Erreur inconnue'}`);
+        } else if (error.request) {
+            // La requête a été faite mais aucune réponse n'a été reçue
+            console.error('Erreur lors de la suppression : Aucune réponse reçue');
+        } else {
+            // Quelque chose s'est produit lors de la configuration de la requête
+            console.error('Erreur lors de la suppression :', error.message);
+        }
+    }
+       
   }
 
   const handleAddTask=(taskValue)=>{
