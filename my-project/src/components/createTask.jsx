@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import axios from 'axios';
 
-const CreateTask = ({ showTask,handleSubmit,handleChange,task }) => {
-
+import { TaskContext } from './TaskProvider';
+const CreateTask = () => {
+  const { showTask,handleSubmit,handleChange,task }=useContext(TaskContext);
 
     return (
         <form className="absolute top-0 left-0 w-full z-10" onSubmit={handleSubmit}>

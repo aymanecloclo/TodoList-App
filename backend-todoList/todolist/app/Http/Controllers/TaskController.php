@@ -33,7 +33,7 @@ class TaskController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
- public function store(Request $request)
+public function store(Request $request)
 {
     // Valider les données
     $validatedData = $request->validate([
@@ -44,12 +44,16 @@ class TaskController extends Controller
         'categorie' => 'nullable|string',
     ]);
 
+    // Ajouter la valeur de completed aux données validées
+    $validatedData['completed'] = 0; // ou 1 si la tâche est déjà complétée
+
     // Créer la tâche
     $task = Task2s::create($validatedData);
 
     // Retourner une réponse
     return response()->json(['task' => $task], 201);
 }
+
     /**
      * Display the specified resource.
      *
@@ -100,7 +104,7 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        Task::destroy($id);
+        Task2s::destroy($id);
         return response()->json(null,204);
     }
 }
